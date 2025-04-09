@@ -13,7 +13,8 @@ int main()
 	std::cout << i->getType() << " " << std::endl;
 	i->makeSound(); // will output the cat sound!
 	j->makeSound();
-	meta->makeSound();
+	meta->makeSound();	
+	std::cout << BLUE "end of subject's exemple" RESET << std::endl;
 	delete meta;
 	delete j;
 	delete i;

@@ -11,7 +11,7 @@ OBJ = $(patsubst %.cpp,$(OBJ_PATH)/%.o,$(SRC))
 HEADERS = Animal.hpp Dog.hpp Cat.hpp WrongAnimal.hpp WrongCat.hpp
 
 CC = c++
-CFLAGS = -Wall -Werror -Wextra -std=c++98 -g -I.
+CFLAGS = -Wall -Werror -Wextra -std=c++98 -g -I. -gdwarf-2
 
 all: $(NAME)
 
