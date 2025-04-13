@@ -24,7 +24,7 @@ public:
 	Animal(const Animal &other);
 	Animal &operator=(const Animal &other);
 	virtual ~Animal();
-	virtual void makeSound() const = 0; // virtuelle pure
+	virtual void makeSound() const = 0; // virtuelle pure (la calsse ne peut pas être instanciée directement)
 	std::string getType() const;
 
 protected:
