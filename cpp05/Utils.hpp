@@ -31,6 +31,7 @@
 #define CYAN "\033[36m"
 #define MAGENTA "\033[35m"
 #define ORANGE "\033[38;5;208m"
+#define PINK "\033[38;5;198m"
 #define R "\033[0m"
 #define B "\033[1m"
 #define D "\033[2m"
