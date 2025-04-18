@@ -103,6 +103,7 @@ int main()
 	me->equip(tmp);
 	me->use(0, *bob);
 	me->use(1, *bob);
+	// open un fichier, main.cpp sans le refermer
 	delete bob;
 	delete me;
 	delete src;
