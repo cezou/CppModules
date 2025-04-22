@@ -1,5 +1,4 @@
 #include "includes/ScalarConverter.hpp"
-#include "../../Utils.hpp"
 #include <limits> // Include for numeric_limits
 #include <iomanip> // Include for setprecision, fixed
 
@@ -31,5 +30,4 @@ int main(int ac, char **av)
 		if (i < ac - 1) 
 			std::cout << std::endl;
 	}
-	return 0;
 }
