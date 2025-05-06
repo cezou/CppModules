@@ -18,6 +18,7 @@ public:
 	Ice &operator=(const Ice &assign);
 
 	virtual AMateria *clone() const;
+	
 	virtual void use(ICharacter &target);
 };
 

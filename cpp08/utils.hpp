@@ -95,4 +95,23 @@ inline void sn(int n, const std::string &msg = "")
     std::cout << std::endl;
 }
 
+/**
+ * @brief Exception class for handling errors in a red format
+ * @details This class inherits from std::exception and provides a custom error message
+ *          that is formatted with red color for better visibility in the console.
+ */
+class RedException : public std::exception
+{
+public:
+    explicit RedException(const std::string& message) : _message(RED + message + R) {}
+    virtual ~RedException() throw() {}
+    const char* what() const throw()
+    {
+        return _message.c_str();
+    }
+
+private:
+    std::string _message;
+};
+
 #endif
