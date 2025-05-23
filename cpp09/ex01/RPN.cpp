@@ -20,13 +20,10 @@ void RPN::checkArguments(std::string args)
 		// split par whitespace
 		while (it != args.end() && *it == ' ')
 			it++;
-			// ou qu'il n'est pas suivi par un espace
-		if (std::find(VALID_CHARACTERS, VALID_CHARACTERS + 10, *it) == VALID_CHARACTERS + 10 || (it+1 != args.end() && !isspace(*(it+1))))
+		if (std::find(VALID_CHARACTERS, VALID_CHARACTERS + 10, *it) == VALID_CHARACTERS + 10
+				|| (it+1 != args.end() && !isspace(*(it+1))))
 		{
-			std::ostringstream oss;
-			oss << std::distance(args.begin(), it);
-			std::string str = oss.str();
-			throw ArgException("Invalid character", _operation, std::distance(args.begin(), it));
+			throw ArgException("Invalid character : ", _operation, std::distance(it, args.end()));
 		}
 		++it;
 	}

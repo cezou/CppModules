@@ -17,11 +17,12 @@ public:
 	{
 	public:
 		explicit ArgException(const std::string& message, const std::string& operation, size_t pos = 0) : 
-			_message(B RED "Error: " R + message + " in " + operation + "\n")
+			_message(B RED "Error: " R + message + operation + "\n")
 		{
+			size_t len = _message.length();
 			std::ostringstream oss;
 			oss << pos;
-			for (size_t i = 0; i < pos + message.length() + operation.length() + 6; i++)
+			for (size_t i = 0; i < len - pos - std::string(B RED R).length(); i++)
 				_message += " ";
 			_message +=  RED BOLD "^" R;
 		}
