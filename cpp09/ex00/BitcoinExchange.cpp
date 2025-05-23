@@ -191,7 +191,7 @@ Date::Date(std::string date) : _date(date)
 	monthStream >> _month;
 	std::istringstream dayStream(_date.substr(8, 2));
 	dayStream >> _day;
-	
+
 	if (_year < 0)
 		throw ("Invalid year");
 	if (_month < 1 || _month > 12)
@@ -227,13 +227,10 @@ void Date::checkDate()
  */
 void Date::checkFebruary()
 {
-	if (isLeapYear(_year))
-	{
-		if (_day > 29)
-			throw ("Invalid day for February in a leap year");
-	}
-	else if (_day > 28)
+	if (!isLeapYear(_year) && _day > 28)
 		throw ("Invalid day for February in a non-leap year");
+	else if (_day > 29)
+		throw ("Invalid day for February in a leap year");
 }
 
 /**

@@ -1,5 +1,8 @@
 #include "BitcoinExchange.hpp"
 
+/**
+ * @brief Ex00, container used: std::map
+ */
 int main(int ac, char **av)
 {
 	if (ac != 2)
