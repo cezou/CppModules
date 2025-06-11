@@ -43,7 +43,7 @@ void Harl::complain(std::string level)
 		this->debug();
 	case 'I':
 		this->info();
-	case 'W':
+	case 'W'
 		this->warning();
 	case 'E':
 		this->error();

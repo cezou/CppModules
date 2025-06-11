@@ -1,30 +1,74 @@
 #include "RPN.hpp"
 
-
-
-
-RPN::RPN(std::string operation) : _operation(operation)
+/**
+ * @brief Constructor for RPN class
+ * @details The constructor takes a string argument representing the RPN expression.
+ * It parses the expression, validates the characters, and performs the operations.
+ */
+RPN::RPN(std::string args) : _operation(args)
 {
-	checkArguments(operation);
-}
-
-
-// Il n'il doit y a voir que des charactères compris dans [0123456789+-*/]
-#define VALID_CHARACTERS "0123456789+-*/"
-void RPN::checkArguments(std::string args)
-{
-	// split par whitespace, regarder si a l'intérieur il y a bien que [0123456789+-*/]
 	std::string::iterator it = args.begin();
 	while (it != args.end())
 	{
-		// split par whitespace
-		while (it != args.end() && *it == ' ')
+		while (it != args.end() && isspace(*it))
 			it++;
-		if (std::find(VALID_CHARACTERS, VALID_CHARACTERS + 10, *it) == VALID_CHARACTERS + 10
-				|| (it+1 != args.end() && !isspace(*(it+1))))
+		if (it == args.end())
+			break;
+		if (VALID_CHARACTERS.find(*it) == std::string::npos
+			|| (it+1 != args.end() && !isspace(*(it+1))))
 		{
-			throw ArgException("Invalid character : ", _operation, std::distance(it, args.end()));
+			throw ArgException("Invalid character: ", _operation, std::distance(it, args.end()));
 		}
+		if (isdigit(*it))
+			_stack.push(*it - '0');
+		else
+			updateResult(it, args.end());
 		++it;
 	}
+	if (_stack.empty())
+		throw RedException("No Expression");
+	if (_stack.size() > 1)
+		throw RedException("Bad Expression: " B "Not enough operators");
+	std::cout << B "Result: " GREEN << _stack.top() << R << std::endl;
+}
+
+
+/**
+ * @brief Updates the result stack
+ * @details The function updates the top of the stack with 
+ * the result of the operation of the two topmost elements.
+ */
+void RPN::updateResult(std::string::iterator it, std::string::iterator end)
+{
+	if (_stack.size() < 2)
+		throw ArgException("Not enough numbers in stack to perform operation: ", _operation, std::distance(it, end));
+	// printStack();
+	int nb = _stack.top();
+	_stack.pop();
+	// std::cout << _stack.top() << " " << *it << " " << nb << std::endl;
+	switch (*it)
+	{
+		case '+':
+			_stack.top() += nb;
+			break;
+		case '-':
+			_stack.top() -= nb;
+			break;
+		case '*':
+			_stack.top() *= nb;
+			break;
+		case '/':
+			if (nb == 0)
+				throw ArgException("Division by zero is forbidden ", _operation, std::distance(it, end));
+			_stack.top() /= nb;
+	}
+}
+
+
+void RPN::printStack()
+{
+	std::cout << "Stack: ";
+	for (std::stack<int> tmp = _stack; !tmp.empty(); tmp.pop())
+			std::cout << tmp.top() << " ";
+	std::cout << std::endl;
 }

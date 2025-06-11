@@ -1,7 +1,7 @@
 #include "RPN.hpp"
 
 /**
- * @brief Ex01, container used: std::stack
+ * @brief Ex01 RPN, container used: std::stack
  */
 int main(int ac, char **av)
 {

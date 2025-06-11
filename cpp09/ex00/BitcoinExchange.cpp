@@ -37,9 +37,9 @@ void BitcoinExchange::storeData()
 			std::pair<std::string, double> rate = parseLine(line);
 			_rate[rate.first] = rate.second;
 		}
-		catch (const char *e)
+		catch (const std::exception& e)
 		{
-			throw LineException(e, line_nb, DATA_FILE);
+			throw LineException(e.what(), line_nb, DATA_FILE);
 		}
 	}
 }
@@ -55,9 +55,9 @@ void BitcoinExchange::skipHeader(std::ifstream &data, std::string &line, size_t 
 	try {
 		_firstDate = parseLine(line);
 	}
-	catch (const char *e)
+	catch (const std::exception& e)
 	{
-		throw LineException(e, line_nb, DATA_FILE);
+		throw LineException(e.what(), line_nb, DATA_FILE);
 	}
 }
 
@@ -71,7 +71,7 @@ std::pair<std::string, double> BitcoinExchange::parseLine(std::string line)
 {
 	size_t comma_pos = line.find(',');
 	if (comma_pos == std::string::npos)
-		throw ("Invalid data format: < 2 fields");
+		throw std::runtime_error("Invalid data format: < 2 fields");
 
 	std::string date = trim(line.substr(0, comma_pos));
 	Date d(date);
@@ -80,7 +80,7 @@ std::pair<std::string, double> BitcoinExchange::parseLine(std::string line)
 	std::istringstream iss(rate_str);
 	double rate;
 	if (!(iss >> rate) || iss.peek() != EOF)
-		throw ("Invalid rate format");
+		throw std::runtime_error("Invalid rate format");
 	return std::make_pair(date, rate);
 }
 
@@ -94,7 +94,7 @@ std::pair<std::string, double> BitcoinExchange::parseLine(std::string line)
 void BitcoinExchange::findAndDisplayRate(const std::pair<std::string, double>& input)
 {
 	if (input.first < _firstDate.first)
-		throw ("Date is before first date in data file");
+		throw std::runtime_error("Date is before first date in data file");
 
 	std::map<std::string ,double>::iterator rate = _rate.lower_bound(input.first);
 	if (rate != _rate.begin())
@@ -112,7 +112,7 @@ std::pair<std::string, double> BitcoinExchange::parseInputLine(std::string line)
 {
 	size_t sep_pose = line.find(" | ");
 	if (sep_pose == std::string::npos)
-		throw ("bad input => " + line);
+		throw std::runtime_error("bad input => " + line);
 
 	std::string date = trim(line.substr(0, sep_pose));
 	Date d(date);
@@ -121,11 +121,11 @@ std::pair<std::string, double> BitcoinExchange::parseInputLine(std::string line)
 	std::istringstream iss(rate_str);
 	double rate;
 	if (!(iss >> rate) || iss.peek() != EOF)
-		throw ("Invalid rate format");
+		throw std::runtime_error("Invalid rate format");
 	if (rate < 0)
-		throw ("not a positive number");
+		throw std::runtime_error("not a positive number");
 	if (rate > 1000)
-		throw ("too large number (> 1000)");
+		throw std::runtime_error("too large number (> 1000)");
 	return std::make_pair(date, rate);
 }
 
@@ -156,14 +156,9 @@ void BitcoinExchange::displayExchangeResults()
 			std::pair<std::string, double> input = parseInputLine(line);
 			findAndDisplayRate(input);
 		}
-		catch (const char *e)
+		catch (const std::exception& e)
 		{
-			std::cerr << LineException(e, line_nb, _filename).what();
-			continue;
-		}
-		catch (std::string &e)
-		{
-			std::cerr << LineException(e, line_nb, _filename).what();
+			std::cerr << LineException(e.what(), line_nb, _filename).what() << std::endl;
 			continue;
 		}
 	}
@@ -193,13 +188,13 @@ Date::Date(std::string date) : _date(date)
 	dayStream >> _day;
 
 	if (_year < 0)
-		throw ("Invalid year");
+		throw std::runtime_error("Invalid year");
 	if (_month < 1 || _month > 12)
-		throw ("Invalid month");
+		throw std::runtime_error("Invalid month");
 	if (_day < 1 || _day > 31)
-		throw ("Invalid day");
+		throw std::runtime_error("Invalid day");
 	if ((_month == 4 || _month == 6 || _month == 9 || _month == 11) && _day > 30)
-		throw ("Invalid day for the month");
+		throw std::runtime_error("Invalid day for the month");
 	if (_month == 2)
 		checkFebruary();
 	checkDateintheFuture();
@@ -212,13 +207,13 @@ Date::Date(std::string date) : _date(date)
 void Date::checkDate()
 {
 	if (_date.length() != 10 || _date[4] != '-' || _date[7] != '-')
-		throw ("Invalid date format: Year-Month-Day");
+		throw std::runtime_error("Invalid date format: Year-Month-Day");
 	for (size_t i = 0; i < _date.length(); ++i)
 	{
 		if (i == 4 || i == 7)
 			continue;
 		if (!isdigit(_date[i]))
-			throw ("Invalid character in date");
+			throw std::runtime_error("Invalid character in date");
 	}
 }
 
@@ -228,9 +223,9 @@ void Date::checkDate()
 void Date::checkFebruary()
 {
 	if (!isLeapYear(_year) && _day > 28)
-		throw ("Invalid day for February in a non-leap year");
+		throw std::runtime_error("Invalid day for February in a non-leap year");
 	else if (_day > 29)
-		throw ("Invalid day for February in a leap year");
+		throw std::runtime_error("Invalid day for February in a leap year");
 }
 
 /**
@@ -244,5 +239,5 @@ void Date::checkDateintheFuture()
 	if (_year > (now->tm_year + 1900) || 
 		(_year == (now->tm_year + 1900) && _month > (now->tm_mon + 1)) ||
 		(_year == (now->tm_year + 1900) && _month == (now->tm_mon + 1) && _day > now->tm_mday))
-		throw ("Date is in the future");
+		throw std::runtime_error("Date is in the future");
 }

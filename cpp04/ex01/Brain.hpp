@@ -16,7 +16,6 @@ public:
 	Brain &operator=(const Brain &other);
 	~Brain();
 
-	// Add these methods to access ideas
 	void setIdea(int index, const std::string &idea);
 	std::string getIdea(int index) const;
 

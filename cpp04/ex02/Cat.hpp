@@ -25,10 +25,9 @@ public:
 	Cat();
 	Cat(const Cat &other);
 	Cat &operator=(const Cat &other);
-	~Cat();
+	virtual ~Cat();
 	void makeSound() const;
 
-	// Add these methods to access brain ideas
 	void setIdea(int index, const std::string &idea);
 	std::string getIdea(int index) const;
 

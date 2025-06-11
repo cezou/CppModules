@@ -107,7 +107,7 @@ inline void sn(int n, const std::string &msg = "")
 class RedException : public std::exception
 {
 public:
-    explicit RedException(const std::string& message) : _message(B RED "Error: " R RED + message + R + "\n") {}
+    explicit RedException(const std::string& message) : _message(B RED "Error: " R RED + message + R) {}
     virtual ~RedException() throw() {}
     const char* what() const throw()
     {
