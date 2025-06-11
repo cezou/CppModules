@@ -6,7 +6,7 @@
 /*   By: cviegas <cviegas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:27:22 by ple-guya          #+#    #+#             */
-/*   Updated: 2025/04/13 13:44:56 by cviegas          ###   ########.fr       */
+/*   Updated: 2025/06/11 14:44:51 by cviegas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,8 @@
 
 // Macro pour l'affichage conditionnel, utilisable comme une fonction
 #define DEBUG_PRINT(arg)      \
-    do                        \
-    {                         \
-        if (PRINT)            \
-        {                     \
-            std::cout << arg; \
-        }                     \
-    } while (0)
+    if (PRINT)            \
+        std::cout << arg; \
 
 /**
  * @brief Deletes a pointer and sets it to NULL

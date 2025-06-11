@@ -5,6 +5,8 @@
 #include "Character.hpp"
 #include "Ice.hpp"
 #include "Cure.hpp"
+#include <fstream>
+#include <iostream>
 
 #ifndef TEST
 #define TEST 0
@@ -85,6 +87,7 @@ void d_main()
 	test_unequip();
 }
 
+#include "unistd.h"
 /**
  * @brief Main function
  */
@@ -103,11 +106,13 @@ int main()
 	me->equip(tmp);
 	me->use(0, *bob);
 	me->use(1, *bob);
-	// open un fichier, main.cpp sans le refermer
+	me->use(10, *bob);
+
+	
 	delete bob;
 	delete me;
 	delete src;
-	if (TEST)
+	if (PRINT)
 		d_main();
 	return 0;
 }
