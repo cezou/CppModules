@@ -67,8 +67,19 @@ double PmergeMe::stopwatch(void (PmergeMe::*fun)())
  * @details steps: 
  * - 1: Divide into pairs and sort it, x2 size of pairs and sort by last element. 
  *      When recursion level * 2 > size of list, we start the next step.
- * - 2: 
- * - 
+ * - 2:
+ * 	- 2.1: Initalisation: The actual sequence is b1 a1 b2 a2 b3 a3.. bn an NonParticipating
+ * 						Where the elements are the last pairs at the end of step 1.
+ *                      NonParticipating is when the size of the last numbers < pair size
+ * 
+ * 		Pend list is init with B1 and all As
+ *      Main list is init with the rest of Bs
+ * 	- 2.2: Insertion:
+ * 		Boucle: Jacobstahl suivant dans la liste (on commence par 3)
+* 												  (donc itération 0: 3. 1: 5. 2:7) et
+ * 
+ *      Insert the b{jackobstahl}
+ *      Insert   b(jackobstahl -1)
  */
 void PmergeMe::sort(std::list<int> l)
 
