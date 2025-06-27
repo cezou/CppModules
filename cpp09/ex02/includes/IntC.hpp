@@ -66,7 +66,7 @@ inline std::ostream& operator<<(std::ostream& os, const IntC& intc) {
 inline bool operator==(int value, const IntC& intc) {
 	extern size_t g_comparison_count;
 	g_comparison_count++;
-	return value == intc;
+	return value == (int)intc;
 }
 
 

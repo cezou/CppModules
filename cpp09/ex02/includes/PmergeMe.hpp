@@ -29,9 +29,9 @@ public:
 	template <typename Container>
 	void sort(Container& container);
 	
-	void divideIntoPairsAndSort(std::deque<IntC> &deque, size_t &r);
-	void initAndSort(std::deque<IntC> &deque, size_t &r);
-	void binaryInsert(Pair &src, PairContainer sorted, size_t last_element);
+	void divideIntoPairsAndSort(std::deque<IntC> &deque, int &r);
+	void initAndSort(std::deque<IntC> &deque, int &r);
+	void binaryInsert(Pair &src, PairContainer &sorted, size_t last_element);
 
 private:
 	std::deque<IntC> _deque;
@@ -53,3 +53,5 @@ template <typename Container, typename PairContainer>
 void updateContainer(Container& container, const PairContainer& pairs);
 template <typename Container, typename PairContainer>
 void updateContainer(Container& original, const PairContainer& main, const PairContainer& nonParticipating);
+
+size_t binarySearch(const PairContainer& sorted, IntC elem, size_t start, size_t end);

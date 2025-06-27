@@ -76,7 +76,7 @@ void PmergeMe::storeAndSort(Container& container)
 template <typename Container>
 void PmergeMe::sort(Container& container)
 {
-	size_t recursion_level = 1;
+	int recursion_level = 1;
 
 	divideIntoPairsAndSort(container, recursion_level);
 	initAndSort(container, recursion_level);
@@ -87,8 +87,9 @@ void PmergeMe::sort(Container& container)
  *  - 1: Divide into pairs and sort it, x2 size of pairs and sort by last element. 
  *      When recursion level * 2 > size of list, we start the next step.
  */
-void PmergeMe::divideIntoPairsAndSort(std::deque<IntC> &deque, size_t &r)
+void PmergeMe::divideIntoPairsAndSort(std::deque<IntC> &deque, int &r)
 {
+	std::cout << GREEN B "Started pairing & sort, increasing recursion" R << std::endl;
 	while (r * 2 < deque.size())
 	{
 		size_t pairSize = r;
@@ -111,10 +112,11 @@ void PmergeMe::divideIntoPairsAndSort(std::deque<IntC> &deque, size_t &r)
 	}
 }
 
-void PmergeMe::initAndSort(std::deque<IntC> &deque, size_t &r)
+void PmergeMe::initAndSort(std::deque<IntC> &deque, int &r)
 {
 	r /= 2;
-	while (r >= 1)
+	std::cout << GREEN B "Started insertion sort, decreasing recursion" R << std::endl;
+	while (r >= 0)
 	{
 		size_t pairSize = r;
 		PairContainer pairs;
@@ -135,41 +137,78 @@ void PmergeMe::initAndSort(std::deque<IntC> &deque, size_t &r)
 			if ((*it).size() == pairSize)
 				main.push_back(*it++);
 			else
+			{
 				nonParticipating.push_back(*it++);
+				break;
+			}
 			if ((*it).size() == pairSize)
 				pend.push_back(*it);
 			else
 				nonParticipating.push_back(*it);
 		}
+		if (r == 1)
+			main.push_back(pairs.back());
+		else if (!(pairs.size() % 2))
+			nonParticipating.push_back(pairs.back());
+		
 		print(pairs, pend, main, nonParticipating, r);
 
 		Jacobsthal jacob;
-		PairIterator it = pend.begin();
-		for (size_t i = 0; i < pend.size();)
+		size_t i = 0;
+		while (!pend.empty())
 		{
-			size_t jacob_original = jacob -1 -i;
-			if (jacob_original < pend.size())
+			size_t jacob_original = jacob++  -2 ;
+			std::cout << std::endl << "Jacob nb: " << jacob  << " decreased to " << jacob_original << std::endl;
+			std::cout << "Actual pend: ";
+			print(pend);
+			if (jacob_original <= pend.size())
 			{
-				std::advance(it, jacob_original);
-				binaryInsert(*it, main, jacob_original);
-				pend.erase(it);
-				it--;
-				binaryInsert(*it, main, jacob_original);
-				pend.erase(it);
+				PairIterator it = pend.begin();
+				std::advance(it, jacob_original - i);
+				binaryInsert(*it, main, jacob_original + i + 2);
+				it = pend.erase(it);
+				--it;
+				i++;
+				binaryInsert(*it, main, jacob_original + i + 1);
+				it = pend.erase(it);
+				--it;
+				i++;
 			}
 			else
 			{
-				for (PairIterator ite = pend.end(); it != pend.begin(); ite--)
+				print(pend);
+				for (int j = pend.size() - 1; j >= 0; j--)
 				{
-					binaryInsert(*ite, main, jacob_original);
-					pend.erase(ite);
+					print(pend[j], WHITE);
+					binaryInsert(pend[j], main, jacob_original + 1 + i);
 				}
-				break;
+				std::cout << B "FINI LA PEND" R << std::endl;
+				break ;
 			}
 		}
 		updateContainer(deque, main, nonParticipating);
 		r /= 2;
+		if (r == 0)
+			break;
 	}
+}
+
+void PmergeMe::binaryInsert(Pair &src, PairContainer &sorted, size_t end)
+{
+	if (end >= sorted.size())
+	end = sorted.size() - 1;
+	std::cout 	<< "searching index for " B CYAN << src.back() << R " between 0 and " << end << std::endl
+				<<  "Target is " B PINK << sorted[end].back() << R << std::endl;
+	for (PairIterator it = sorted.begin(); it != sorted.end(); it++)
+		std::cout << it->back() << " ";
+	std::cout << std::endl;
+	size_t insert_index = binarySearch(sorted, src.back(), 0, end);
+	std::cout << "Inserting " BOLD  << src.back() <<  R " at insert index " B << insert_index << R << std::endl;
+
+	PairIterator it = sorted.begin();
+	std::advance(it, insert_index);
+	sorted.insert(it, src);
+
 }
 
 /**
@@ -180,18 +219,26 @@ void PmergeMe::initAndSort(std::deque<IntC> &deque, size_t &r)
  * @param end The ending index of the search range.
  * @return The index where the element should be inserted.
  */
-size_t binarySearch(PairContainer sorted, IntC elem, size_t start, size_t end)
+size_t binarySearch(const PairContainer& sorted, IntC elem, size_t start, size_t end)
 {
 	size_t mid = (end + start) / 2;
+	// std::cout 	<< "Binary search:" << std::endl
+	// 			<< "sorted size: " << sorted.size() << std::endl
+	// 			<< "elem: " << elem << std::endl
+	// 			<< "[" << start << " : " << end << "]" << std::endl
+	// 			<<  B WHITE "Comparing " << elem << " with " << sorted[mid].back()
+	// 			<< " and " << sorted[mid + 1].back() << std::endl;
+	if (end == 0)
+		return 0;
 	if (elem > sorted[mid].back())
-		binarySearch(sorted, elem, mid, end);
-	else
-		binarySearch(sorted, elem, start, mid);
+	{
+		if (elem < sorted[mid + 1].back())
+			return mid + 1;
+		return binarySearch(sorted, elem, mid, end);
+	}
+	return binarySearch(sorted, elem, start, mid);
 }
-void PmergeMe::binaryInsert(Pair &src, PairContainer sorted, size_t end)
-{
-	
-}
+
 
 
 
