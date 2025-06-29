@@ -13,7 +13,6 @@ int main(int ac, char **av)
 	{
 		PmergeMe sort(ac, av + 1);
 		std::cout << "Nombre de comparaisons: " << g_comparison_count << std::endl;
-
 	}
 	catch (const std::exception& e)
 	{

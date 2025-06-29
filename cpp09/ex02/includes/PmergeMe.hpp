@@ -31,8 +31,7 @@ public:
 	
 	void divideIntoPairsAndSort(std::deque<IntC> &deque, int &r);
 	void initAndSort(std::deque<IntC> &deque, int &r);
-	void binaryInsert(Pair &src, PairContainer &sorted, size_t last_element);
-
+	void binaryInsert(PairWithIndex &src, PairContainer &sorted);
 private:
 	std::deque<IntC> _deque;
 	std::list<IntC> _list;
