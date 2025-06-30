@@ -7,7 +7,7 @@ HEADERS = includes/PmergeMe.hpp includes/IntC.hpp includes/printUtils.hpp ../uti
 
 CC = c++
 # Base CFLAGS including include paths for current dir, includes dir and parent dir (for utils.hpp)
-CFLAGS = -Wall -Wextra -std=c++98 -g -I. -Iincludes -I.. -gdwarf-2
+CFLAGS = -Wall -Wextra -Werror -std=c++98 -g -I. -Iincludes -I.. -gdwarf-2
 
 #color
 BLUE = \033[34m

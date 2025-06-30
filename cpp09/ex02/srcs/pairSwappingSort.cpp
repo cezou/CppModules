@@ -12,13 +12,13 @@ void PmergeMe::divideIntoPairsAndSort(Pair &deque, int &r)
 		for (size_t i = 0; i < deque.size(); i += r)
 		{
 			Pair pair; 
-			for (size_t j = 0; j < r && (i + j) < deque.size(); j++)
+			for (int j = 0; j < r && (int)(i + j) < (int)deque.size(); j++)
 				pair.push_back(deque[i + j]);
 			pairs.push_back(pair);
 		}
 		print(pairs);
 		for (PairIterator it = pairs.begin(); it != pairs.end() && (it + 1) != pairs.end(); it += 2)
-			if (it->size() + (it + 1)->size() == r * 2)
+			if ((int)(it->size() + (it + 1)->size()) == r * 2)
 				if (it->back() > (it + 1)->back())
 					std::swap(*it, *(it + 1));
 		print(pairs);

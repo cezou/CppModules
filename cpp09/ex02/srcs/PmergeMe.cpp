@@ -99,8 +99,7 @@ void  PmergeMe::binaryInsert(PairTarget &src, PairContainer &sorted, Pend &pend)
 
 void PmergeMe::updatePendTargets(Pend &pend, size_t start_increase)
 {
-	PendIterator it = pend.begin();
-	for (it; it != pend.end(); ++it)
+	for (PendIterator it = pend.begin(); it != pend.end(); ++it)
 		if (it->second >= start_increase)
 			it->second++;
 }

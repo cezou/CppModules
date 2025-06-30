@@ -36,14 +36,14 @@ void PmergeMe::initMainandPend(PairContainer &main,	Pend &pend, PairContainer &n
 	size_t i = 0; PairIterator it;
 	for (it = pairs.begin() + 1, i = 0; it != pairs.end() && (it + 1) != pairs.end(); it++, i++)
 	{
-		if ((*it).size() == r)
+		if ((int)(*it).size() == r)
 			main.push_back(*it++);
 		else
 		{
 			nonParticipating.push_back(*it++);
 			break;
 		}
-		if ((*it).size() == r)
+		if ((int)(*it).size() == r)
 			pend.push_back(std::make_pair(*it, i + 2));
 		else
 			nonParticipating.push_back(*it);
@@ -99,7 +99,7 @@ void PmergeMe::initPairs(PairContainer &pairs, const Pair &deque)
 	for (size_t i = 0; i < deque.size(); i += r)
 	{
 		Pair pair; 
-		for (size_t j = 0; j < r && (i + j) < deque.size(); j++)
+		for (int j = 0; j < r && (int)(i + j) < (int)deque.size(); j++)
 			pair.push_back(deque[i + j]);
 		pairs.push_back(pair);
 	}
