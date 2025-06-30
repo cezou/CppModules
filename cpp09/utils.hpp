@@ -19,9 +19,36 @@
 #include <cstdlib>
 #include <sstream>
 
+
 #ifndef PRINT
-#define PRINT 0
+# define PRINT 0
 #endif
+
+#define DEFAULT_PORT 8080
+
+/**
+ * @brief Debug stream class that only outputs when DEBUG is enabled
+ */
+class DebugStream
+{
+public:
+    template<typename T>
+    DebugStream& operator<<(const T& value)
+    {
+        if (PRINT)
+            std::cout << value;
+        return *this;
+    }
+    
+    DebugStream& operator<<(std::ostream& (*manip)(std::ostream&))
+    {
+        if (PRINT)
+            std::cout << manip;
+        return *this;
+    }
+};
+
+extern DebugStream d_cout;
 
 #define v(x) void(std::cerr << RED << x << RESET << std::endl)
 
@@ -47,13 +74,8 @@
 
 // Macro pour l'affichage conditionnel, utilisable comme une fonction
 #define DEBUG_PRINT(arg)      \
-    do                        \
-    {                         \
-        if (PRINT)            \
-        {                     \
-            std::cout << arg; \
-        }                     \
-    } while (0)
+	if (PRINT)            \
+		std::cout << arg; 
 
 /**
  * @brief Deletes a pointer and sets it to NULL

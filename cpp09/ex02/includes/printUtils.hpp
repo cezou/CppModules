@@ -3,8 +3,10 @@
 #include <iostream>
 #include <string>
 #include <deque>
-#include "../utils.hpp"
+#include "../../utils.hpp"
 #include "IntC.hpp"
+#include <algorithm>
+
 
 extern size_t g_comparison_count;
 
@@ -26,3 +28,9 @@ void print(const PairContainer &c, const std::string &color, char letter);
 void print(const PairContainer &c, const std::string &color);
 void print(PairContainer::const_iterator elemIt, const std::string &color, char letter, size_t i);
 void print(const Pend &p);
+
+template <typename PairContainer>
+bool is_sorted(const PairContainer& container)
+{
+	return std::adjacent_find(container.begin(), container.end(), std::greater<IntC>()) == container.end();
+}

@@ -5,13 +5,15 @@
 # include "../../utils.hpp"
 # include "IntC.hpp"
 # include "Jacobsthal.hpp"
-#include "printUtils.hpp"
+# include "printUtils.hpp"
 # include <cstdio>
 # include "algorithm"
 # include <deque>
-# include <list>
+# include <vector>
 
 class IntC;
+
+
 
 class PmergeMe
 {
@@ -29,12 +31,21 @@ public:
 	template <typename Container>
 	void sort(Container& container);
 	
-	void divideIntoPairsAndSort(std::deque<IntC> &deque, int &r);
-	void initAndSort(std::deque<IntC> &deque, int &r);
-	void binaryInsert(PairWithIndex &src, PairContainer &sorted);
+	void divideIntoPairsAndSort(Pair &deque, int &r);
+	void initAndSort(Pair &deque, int &r);
+	void initPairs(PairContainer &pairs, const Pair &deque);
+	void initMainandPend(PairContainer &main,	Pend &pend, PairContainer &nonParticipating, const Pair &deque);
+
+	void insertUpdatingPend(PendIterator &it, PairContainer &main, Pend &pend, size_t &shift);
+	void binaryInsert(PairWithIndex &src, PairContainer &sorted, Pend &pend);
+	void updatePend(Pend &pend, size_t start_increase);
+	std::deque<IntC> getDeque() {return _deque;};
+	std::vector<IntC> getVec(){return _vec;};
+	int r;
+
 private:
 	std::deque<IntC> _deque;
-	std::list<IntC> _list;
+	std::vector<IntC> _vec;
 
 	char **_args;
 	size_t _nb_args;
