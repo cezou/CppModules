@@ -113,3 +113,13 @@ void print(const Pend &p)
 		d_cout << " (target: " PINK "a" << elemIt->second << R ")" << std::endl;
 	}
 }
+
+
+void printBeforeInsert(PairTarget &src, PairContainer &sorted)
+{
+	d_cout 	<< "searching index for " B CYAN << src.first.back() << R " between 0 and " << src.second << std::endl
+				<<  "Target is " B PINK << sorted[src.second].back() << R << std::endl;
+	for (PairIterator it = sorted.begin(); it != sorted.end(); it++)
+		d_cout << it->back() << " ";
+	d_cout << std::endl;
+}

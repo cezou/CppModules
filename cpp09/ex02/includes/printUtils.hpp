@@ -14,8 +14,8 @@ typedef std::deque<IntC> Pair;
 typedef std::deque<Pair> PairContainer;
 typedef PairContainer::iterator PairIterator;
 
-typedef std::pair<Pair, size_t> PairWithIndex;
-typedef std::deque<PairWithIndex> Pend;
+typedef std::pair<Pair, size_t> PairTarget;
+typedef std::deque<PairTarget> Pend;
 typedef Pend::iterator PendIterator;
 
 
@@ -28,9 +28,10 @@ void print(const PairContainer &c, const std::string &color, char letter);
 void print(const PairContainer &c, const std::string &color);
 void print(PairContainer::const_iterator elemIt, const std::string &color, char letter, size_t i);
 void print(const Pend &p);
+void printBeforeInsert(PairTarget &src, PairContainer &sorted);
 
 template <typename PairContainer>
 bool is_sorted(const PairContainer& container)
 {
-	return std::adjacent_find(container.begin(), container.end(), std::greater<IntC>()) == container.end();
+	return std::adjacent_find(container.begin(), container.end(), std::greater<int>()) == container.end();
 }

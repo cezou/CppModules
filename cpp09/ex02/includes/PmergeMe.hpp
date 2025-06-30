@@ -35,12 +35,14 @@ public:
 	void initAndSort(Pair &deque, int &r);
 	void initPairs(PairContainer &pairs, const Pair &deque);
 	void initMainandPend(PairContainer &main,	Pend &pend, PairContainer &nonParticipating, const Pair &deque);
+	void insertPendIntoMain(PairContainer &main, Pend &pend);
+
 
 	void insertUpdatingPend(PendIterator &it, PairContainer &main, Pend &pend, size_t &shift);
-	void binaryInsert(PairWithIndex &src, PairContainer &sorted, Pend &pend);
-	void updatePend(Pend &pend, size_t start_increase);
+	void binaryInsert(PairTarget &src, PairContainer &sorted, Pend &pend);
+	void updatePendTargets(Pend &pend, size_t start_increase);
 	std::deque<IntC> getDeque() {return _deque;};
-	std::vector<IntC> getVec(){return _vec;};
+	std::vector<IntC> getVec() {return _vec;};
 	int r;
 
 private:
@@ -59,9 +61,26 @@ private:
 };
 
 
+	
 template <typename Container, typename PairContainer>
-void updateContainer(Container& container, const PairContainer& pairs);
+void updateContainer(Container& container, const PairContainer& pairs)
+{
+    container.clear();
+    for (typename PairContainer::const_iterator it = pairs.begin(); it != pairs.end(); ++it)
+        for (typename Container::const_iterator elem = it->begin(); elem != it->end(); ++elem)
+            container.push_back(*elem);
+}
+
 template <typename Container, typename PairContainer>
-void updateContainer(Container& original, const PairContainer& main, const PairContainer& nonParticipating);
+void updateContainer(Container& original, const PairContainer& main,  const PairContainer& nonParticipating)
+{
+	original.clear();
+	for (typename PairContainer::const_iterator it = main.begin(); it != main.end(); ++it)
+		for (typename Container::const_iterator elem = it->begin(); elem != it->end(); ++elem)
+			original.push_back(*elem);
+	for (typename PairContainer::const_iterator it = nonParticipating.begin(); it != nonParticipating.end(); ++it)
+		for (typename Container::const_iterator elem = it->begin(); elem != it->end(); ++elem)
+			original.push_back(*elem);
+}
 
 size_t binarySearch(const PairContainer& sorted, IntC elem, size_t start, size_t end);
