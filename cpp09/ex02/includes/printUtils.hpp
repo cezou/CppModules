@@ -85,4 +85,11 @@ bool is_sorted(const PairContainer& container)
 	return std::adjacent_find(container.begin(), container.end(), std::greater<int>()) == container.end();
 }
 
-
+template <typename PairContainer>
+void printIsSorted(const PairContainer& container)
+{
+	if (is_sorted(container))
+		std::cout << GREEN B "La liste est triée" R << std::endl;
+	else
+		std::cout << RED B "La liste n'est pas triée" R << std::endl;
+}

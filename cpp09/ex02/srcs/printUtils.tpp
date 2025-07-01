@@ -6,7 +6,6 @@ DebugStream d_cout;
 template <typename Container>
 void PmergeMe<Container>::print(const PairContainer& pairs)
 {
-	if (pairs.empty()) return;
 	d_cout << "Recursion: " << pairs[0].size() / 2 << std::endl;
 	for (size_t i = 0; i < pairs.size(); i++)
 	{

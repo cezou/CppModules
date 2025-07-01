@@ -3,7 +3,7 @@ NAME = PmergeMe
 OBJDIR = .objs
 SRCS = main.cpp
 OBJS = $(addprefix $(OBJDIR)/, $(notdir $(SRCS:.cpp=.o)))
-HEADERS = includes/PmergeMe.hpp includes/IntC.hpp includes/printUtils.hpp srcs/PmergeMe.tpp srcs/containerUtils.tpp srcs/pairSwappingSort.tpp srcs/insertionSort.tpp srcs/printUtils.tpp
+HEADERS = includes/PmergeMe.hpp includes/IntC.hpp includes/printUtils.hpp srcs/PmergeMe.tpp srcs/containerUtils.tpp srcs/sortPairSwapping.tpp srcs/sortInsertion.tpp srcs/printUtils.tpp
 
 CC = c++
 # Base CFLAGS including include paths for current dir, includes dir and parent dir (for utils.hpp)

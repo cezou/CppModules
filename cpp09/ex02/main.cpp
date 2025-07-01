@@ -23,7 +23,7 @@ void checkArgs(size_t nb_args, char **args)
 
 void printTime(double time, size_t size, std::string container, std::string color)
 {
-	d_cout << "Time to process a range of " << size
+	std::cout << "Time to process a range of " << size
 			  << " elements with std::" << container << " : " B << color << time << R " us" << std::endl;
 }
 
@@ -34,35 +34,19 @@ int main(int ac, char **av)
 {
 	if (ac < 2)
 		return v("Usage: ./PMergeMe positive integer sequence"), 1;
+	ac--; av++;
 	try 
 	{
-		checkArgs(ac - 1, av + 1);
-		PmergeMe<std::deque<IntC> > dequeSort(ac - 1, av + 1);
-		PmergeMe<std::vector<IntC> > vectorSort(ac - 1, av + 1);
-		
-		std::cout << "Nombre de comparaisons: " << g_comparison_count << std::endl;
-		
-		if (is_sorted(dequeSort.getContainer()))
-			std::cout << GREEN B "La liste deque finie bien triée" R << std::endl;
-		else
-			std::cout << RED B "La liste deque ne finie pas triée" R << std::endl;
-			
-		if (is_sorted(vectorSort.getContainer()))
-			std::cout << GREEN B "La liste vector finie bien triée" R << std::endl;
-		else
-			std::cout << RED B "La liste vector ne finie pas triée" R << std::endl;
-			
+		checkArgs(ac, av);
+		PmergeMe<std::deque<IntC> > dequeSort(ac, av);
+		PmergeMe<std::vector<IntC> > vectorSort(ac, av);
 		printTime(dequeSort.getTime(), dequeSort.getContainer().size(), "deque", 
-				 vectorSort.getTime() > dequeSort.getTime() ? RED : GREEN);
+				 vectorSort.getTime() > dequeSort.getTime() ? GREEN : RED);
 		printTime(vectorSort.getTime(), vectorSort.getContainer().size(), "vector", 
-				 dequeSort.getTime() > vectorSort.getTime() ? RED : GREEN);
+				 dequeSort.getTime() > vectorSort.getTime() ? GREEN : RED);
 	}
 	catch (const std::exception& e)
-	{
-		return v(e.what()), 1;
-	}
+		{ return v(e.what()), 1; }
 	catch (...)
-	{
-		return v("An unknown error occurred"), 1;
-	}
+		{ return v("An unknown error occurred"), 1; }
 }

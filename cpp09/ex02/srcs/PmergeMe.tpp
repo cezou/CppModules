@@ -4,7 +4,10 @@
 template <typename Container>
 PmergeMe<Container>::PmergeMe(size_t nb_args, char **args) : _args(args), _nb_args(nb_args)
 {
+	g_comparison_count = 0;
 	storeAndSort();
+	std::cout << "Nombre de comparaisons: " << g_comparison_count << std::endl;
+	printIsSorted(getContainer());
 }
 
 template <typename Container>
@@ -38,7 +41,7 @@ void PmergeMe<Container>::sort()
 	initAndSort(r);
 }
 
-#include "pairSwappingSort.tpp"
-#include "insertionSort.tpp"
+#include "sortPairSwapping.tpp"
+#include "sortInsertion.tpp"
 #include "containerUtils.tpp"
 #include "printUtils.tpp"

@@ -1,4 +1,5 @@
 #pragma once
+#include "PmergeMe.hpp"
 
 template <typename Container>
 void PmergeMe<Container>::initAndSort(int &r)
@@ -72,12 +73,12 @@ void PmergeMe<Container>::insertPendIntoMain(PairContainer &main, Pend &pend)
 		{
 			PendIterator it = pend.begin();
 			std::advance(it, jacob_original - shift);
-			insertUpdatingPend(it, main, pend, shift);
+			while (it != pend.begin())
+				insertUpdatingPend(it, main, pend, shift);
 			insertUpdatingPend(it, main, pend, shift);
 		}
 		else
 		{
-			d_cout << B " ---- Inserting all from the end ---- " R << std::endl;
 			print(pend);
 			for (int j = pend.size() - 1; j >= 0; j--)
 				binaryInsert(pend[j], main, pend);
@@ -103,7 +104,7 @@ void PmergeMe<Container>::binaryInsert(PairTarget &src, PairContainer &sorted, P
 		src.second = sorted.size() - 1;
 	printBeforeInsert(src, sorted);
 
-	size_t insert_index = binarySearch(sorted, src.first.back(), 0, src.second);
+	size_t insert_index = binarySearch(sorted, src.first.back(), 0, src.second + 1);
 
 	d_cout << "Inserting " BOLD  <<  src.first.back() <<  R " at insert index " B << insert_index << R << std::endl;
 	PairIterator it = sorted.begin();
@@ -112,23 +113,19 @@ void PmergeMe<Container>::binaryInsert(PairTarget &src, PairContainer &sorted, P
 	updatePendTargets(pend, insert_index);
 }
 
-
 template <typename PairContainer>
 size_t binarySearch(const PairContainer& sorted, IntC elem, size_t start, size_t end)
 {
-	size_t mid = (end + start) / 2;
-
-	if (end == 0)
-		return 0;
-	if (start == sorted.size() - 2)
-		return sorted.size();
-	if (elem > sorted[mid].back())
+	while (start < end)
 	{
-		if (elem < sorted[mid + 1].back())
-			return mid + 1;
-		return binarySearch(sorted, elem, mid, end);
+		size_t mid = (end + start) / 2;
+		
+		if (elem > sorted[mid].back())
+			start = mid + 1; 
+		else
+			end = mid;
 	}
-	return binarySearch(sorted, elem, start, mid);
+	return start;
 }
 
 template <typename Container>
