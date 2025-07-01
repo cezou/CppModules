@@ -1,14 +1,12 @@
-#include "../includes/printUtils.hpp"
-#include <iostream>
+#pragma once
 
-void printTime(double time, size_t size, std::string container, std::string color)
-{
-	d_cout << "Time to process a range of " << size
-			  << " elements with std::" << container << " : " B << color << time << R " us" << std::endl;
-}
+#include "../includes/PmergeMe.hpp"
+DebugStream d_cout;
 
-void print(PairContainer pairs)
+template <typename Container>
+void PmergeMe<Container>::print(const PairContainer& pairs)
 {
+	if (pairs.empty()) return;
 	d_cout << "Recursion: " << pairs[0].size() / 2 << std::endl;
 	for (size_t i = 0; i < pairs.size(); i++)
 	{
@@ -21,10 +19,11 @@ void print(PairContainer pairs)
 	d_cout << std::endl;
 }
 
-void print(PairContainer original, Pend pend, PairContainer main, PairContainer nonParti, size_t recursion)
+template <typename Container>
+void PmergeMe<Container>::print(const PairContainer& original, const Pend& pend, const PairContainer& main, const PairContainer& nonParti, size_t recursion)
 {
 	d_cout << std::endl << B "Before init: " R;
-	PairContainer::const_iterator elemIt;
+	typename PairContainer::const_iterator elemIt;
 	size_t i;
 
 	for (elemIt = original.begin(), i = 0; elemIt != original.end(); ++elemIt, i++)
@@ -46,10 +45,10 @@ void print(PairContainer original, Pend pend, PairContainer main, PairContainer 
 }
 
 template <typename Container>
-void print(const Container &container, const std::string &color)
+void PmergeMe<Container>::print(const Pair &container, const std::string &color)
 {
 	d_cout << color << "[";
-	typename Container::const_iterator elemIt;
+	typename Pair::const_iterator elemIt;
 	for (elemIt = container.begin(); elemIt != container.end(); ++elemIt)
 	{
 		if (elemIt != container.begin())
@@ -59,9 +58,10 @@ void print(const Container &container, const std::string &color)
 	d_cout << "] " RESET;
 }
 
-void print(const PairContainer &c, const std::string &color)
+template <typename Container>
+void PmergeMe<Container>::print(const PairContainer &c, const std::string &color)
 {
-	PairContainer::const_iterator elemIt;
+	typename PairContainer::const_iterator elemIt;
 	for (elemIt = c.begin(); elemIt != c.end(); ++elemIt)
 	{
 		if (elemIt != c.begin())
@@ -70,18 +70,17 @@ void print(const PairContainer &c, const std::string &color)
 	}
 }
 
-
-
-void print(PairContainer::const_iterator elemIt, const std::string &color, char letter, size_t i)
+template <typename Container>
+void PmergeMe<Container>::print(typename PairContainer::const_iterator elemIt, const std::string &color, char letter, size_t i)
 {
 	d_cout << letter << i;
 	print(*elemIt, color);
 }
 
-
-void print(const PairContainer &c, const std::string &color, char letter)
+template <typename Container>
+void PmergeMe<Container>::print(const PairContainer &c, const std::string &color, char letter)
 {
-	PairContainer::const_iterator elemIt;
+	typename PairContainer::const_iterator elemIt;
 	size_t i;
 
 	if (letter == 'b')
@@ -97,9 +96,10 @@ void print(const PairContainer &c, const std::string &color, char letter)
 		print(c, color);
 }
 
-void print(const Pend &p)
+template <typename Container>
+void PmergeMe<Container>::print(const Pend &p)
 {
-	Pend::const_iterator elemIt;
+	typename Pend::const_iterator elemIt;
 	size_t i;
 
 	for (elemIt = p.begin(), i = 2; elemIt != p.end(); ++elemIt, i++)
@@ -114,12 +114,12 @@ void print(const Pend &p)
 	}
 }
 
-
-void printBeforeInsert(PairTarget &src, PairContainer &sorted)
+template <typename Container>
+void PmergeMe<Container>::printBeforeInsert(PairTarget &src, PairContainer &sorted)
 {
 	d_cout 	<< "searching index for " B CYAN << src.first.back() << R " between 0 and " << src.second << std::endl
-				<<  "Target is " B PINK << sorted[src.second].back() << R << std::endl;
-	for (PairIterator it = sorted.begin(); it != sorted.end(); it++)
+			<<  "Target is " B PINK << sorted[src.second].back() << R << std::endl;
+	for (typename PairContainer::iterator it = sorted.begin(); it != sorted.end(); it++)
 		d_cout << it->back() << " ";
 	d_cout << std::endl;
 }
