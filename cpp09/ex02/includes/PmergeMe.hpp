@@ -11,6 +11,7 @@
 # include <deque>
 # include <vector>
 # include <ctime>
+#include <math.h>
 
 class IntC;
 

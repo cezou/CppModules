@@ -1,13 +1,32 @@
 #pragma once
 #include <sstream>
 
+size_t F(size_t n)
+{
+    int sum = 0;
+    for (size_t k = 1; k <= n; ++k) {
+        double value = (3.0 / 4.0) * k;
+        sum += static_cast<int>(ceil(log2(value)));
+    }
+    return sum;
+}
+
+void printComparaisons(size_t nb_args)
+{
+	size_t max_comps = F(nb_args);
+	std::string color = (g_comparison_count > max_comps) ? RED : GREEN;
+
+	std::cout << "Nombre de comparaisons: " B << color <<  g_comparison_count << R 
+			  << " (max: " B << max_comps << R ")" << std::endl;
+}
+
 template <typename Container>
 PmergeMe<Container>::PmergeMe(size_t nb_args, char **args) : _args(args), _nb_args(nb_args)
 {
 	g_comparison_count = 0;
 	storeAndSort();
-	std::cout << "Nombre de comparaisons: " << g_comparison_count << std::endl;
-	printIsSorted(getContainer());
+	printComparaisons(_nb_args);
+	printIsSorted(this->_container);
 }
 
 template <typename Container>

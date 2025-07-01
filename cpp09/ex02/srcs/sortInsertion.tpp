@@ -42,10 +42,7 @@ void PmergeMe<Container>::initMainandPend(PairContainer &main, Pend &pend, PairC
 		if ((int)(*it).size() == r)
 			main.push_back(*it++);
 		else
-		{
 			nonParticipating.push_back(*it++);
-			break;
-		}
 		if ((int)(*it).size() == r)
 			pend.push_back(std::make_pair(*it, i + 2));
 		else
@@ -100,11 +97,12 @@ void PmergeMe<Container>::insertUpdatingPend(PendIterator &it, PairContainer &ma
 template <typename Container>
 void PmergeMe<Container>::binaryInsert(PairTarget &src, PairContainer &sorted, Pend &pend)
 {
+
 	if (src.second >= sorted.size())
-		src.second = sorted.size() - 1;
+		src.second = sorted.size();
 	printBeforeInsert(src, sorted);
 
-	size_t insert_index = binarySearch(sorted, src.first.back(), 0, src.second + 1);
+	size_t insert_index = binarySearch(sorted, src.first.back(), 0, src.second);
 
 	d_cout << "Inserting " BOLD  <<  src.first.back() <<  R " at insert index " B << insert_index << R << std::endl;
 	PairIterator it = sorted.begin();
@@ -119,7 +117,6 @@ size_t binarySearch(const PairContainer& sorted, IntC elem, size_t start, size_t
 	while (start < end)
 	{
 		size_t mid = (end + start) / 2;
-		
 		if (elem > sorted[mid].back())
 			start = mid + 1; 
 		else
