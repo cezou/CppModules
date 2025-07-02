@@ -6,13 +6,15 @@
 # include "IntC.hpp"
 # include "Jacobsthal.hpp"
 # include "printUtils.hpp"
-# include "utils.hpp"
 # include <cstdio>
 # include "algorithm"
 # include <deque>
 # include <vector>
 # include <ctime>
-#include <math.h>
+# include <sys/time.h>
+# include <math.h>
+
+extern DebugStream d_cout;
 
 class IntC;
 
@@ -44,7 +46,6 @@ public:
 	void binaryInsert(PairTarget &src, PairContainer &sorted, Pend &pend);
 	void updatePendTargets(Pend &pend, size_t start_increase);
 	
-	// Print functions
 	void print(const PairContainer& pairs);
 	void print(const PairContainer& original, const Pend& pend, const PairContainer& main,
 				const PairContainer& nonParti, size_t recursion);
@@ -58,7 +59,10 @@ public:
 	
 	
 	Container getContainer() { return _container; }
-	double getTime() { return static_cast<double>(_end - _start) / CLOCKS_PER_SEC * 1000000; }
+	double getTime() { 
+		return (_end.tv_sec - _start.tv_sec) * 1000000.0 + 
+		       (_end.tv_nsec - _start.tv_nsec) / 1000.0; 
+	}
 	
 	int r;
 
@@ -66,7 +70,7 @@ private:
 	Container _container;
 	char **_args;
 	size_t _nb_args;
-	clock_t _start, _end;
+	struct timespec _start, _end;
 
 	// Not used but respects the rule of 5
 	PmergeMe() {};
@@ -74,19 +78,10 @@ private:
 	PmergeMe & operator=(const PmergeMe &a) {(void)a; return *this;};
 };
 
-inline void printTime(double time, size_t size, std::string container, std::string color)
-{
-	std::cout << "Time to process a range of " << size
-			  << " elements with std::" << container << " : " B << color << time << R " us" << std::endl;
-}
+void printTime(PmergeMe<std::vector<IntC> > &vec, PmergeMe<std::deque<IntC> > &deque);
 
-inline void printTime(PmergeMe<std::vector<IntC> > &vec, PmergeMe<std::deque<IntC> > &deque)
-{
-	bool greater =  vec.getTime() > deque.getTime();
-	printTime(deque.getTime(), deque.getContainer().size(), "deque", 
-				 greater ? GREEN : RED);
-	printTime(vec.getTime(), vec.getContainer().size(), "vector", 
-				!greater ? GREEN : RED);
-}
+void checkArgs(size_t nb_args, char **args);
 
-#include "../srcs/PmergeMe.tpp"
+void printComparaisons(size_t nb_args);
+
+#include "../impl/PmergeMe.tpp"

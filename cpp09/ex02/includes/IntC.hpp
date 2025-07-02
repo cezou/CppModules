@@ -3,7 +3,6 @@
 #include <iostream>
 #include "../../utils.hpp"
 
-
 extern size_t g_comparison_count;
 
 class IntC 

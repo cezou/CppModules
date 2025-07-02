@@ -51,6 +51,9 @@
 		"typeinfo": "cpp",
 		"ctime": "cpp",
 		"*.tpp": "cpp",
-		"*.old": "cpp"
+		"*.old": "cpp",
+		"iomanip": "cpp",
+		"map": "cpp",
+		"fstream": "cpp"
 	}
 }

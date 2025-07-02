@@ -1,9 +1,10 @@
 # --- Normal Build Variables ---
 NAME = PmergeMe
 OBJDIR = .objs
-SRCS = main.cpp
+SRCS = main.cpp srcs/utils.cpp
 OBJS = $(addprefix $(OBJDIR)/, $(notdir $(SRCS:.cpp=.o)))
-HEADERS = includes/PmergeMe.hpp includes/utils.hpp  includes/IntC.hpp includes/printUtils.hpp srcs/PmergeMe.tpp srcs/containerUtils.tpp srcs/sortPairSwapping.tpp srcs/sortInsertion.tpp srcs/printUtils.tpp
+HEADERS = includes/PmergeMe.hpp includes/IntC.hpp includes/printUtils.hpp \
+		  impl/PmergeMe.tpp impl/containerUtils.tpp impl/sortPairSwapping.tpp impl/sortInsertion.tpp impl/printUtils.tpp
 
 CC = c++
 # Base CFLAGS including include paths for current dir, includes dir and parent dir (for utils.hpp)

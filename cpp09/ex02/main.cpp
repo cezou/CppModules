@@ -13,8 +13,8 @@ int main(int ac, char **av)
 	try 
 	{
 		checkArgs(ac, av);
-		PmergeMe<std::deque<IntC> > dequeSort(ac, av);
 		PmergeMe<std::vector<IntC> > vectorSort(ac, av);
+		PmergeMe<std::deque<IntC> > dequeSort(ac, av);
 		printTime(vectorSort, dequeSort);
 	}
 	catch (const std::exception& e)

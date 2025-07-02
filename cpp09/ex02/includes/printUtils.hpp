@@ -4,7 +4,6 @@
 #include <string>
 #include <deque>
 #include <vector>
-#include "../utils.hpp"
 #include "PmergeMe.hpp"
 #include "IntC.hpp"
 #include <algorithm>
@@ -35,10 +34,6 @@ struct ContainerTraits<std::vector<T> > {
 	typedef std::vector<PairTarget> Pend;
 	typedef typename Pend::iterator PendIterator;
 };
-
-
-void printTime(double time, size_t size, std::string container, std::string color);
-
 
 template <typename PairContainer>
 bool is_sorted(const PairContainer& container)
