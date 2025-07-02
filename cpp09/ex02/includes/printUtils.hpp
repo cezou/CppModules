@@ -5,6 +5,7 @@
 #include <deque>
 #include <vector>
 #include "../utils.hpp"
+#include "PmergeMe.hpp"
 #include "IntC.hpp"
 #include <algorithm>
 #include <cstdio>
@@ -35,49 +36,9 @@ struct ContainerTraits<std::vector<T> > {
 	typedef typename Pend::iterator PendIterator;
 };
 
-// Legacy typedefs for backward compatibility (using deque)
-typedef std::deque<IntC> Pair;
-typedef std::deque<Pair> PairContainer;
-typedef PairContainer::iterator PairIterator;
-typedef std::pair<Pair, size_t> PairTarget;
-typedef std::deque<PairTarget> Pend;
-typedef Pend::iterator PendIterator;
-
 
 void printTime(double time, size_t size, std::string container, std::string color);
 
-void print(PairContainer pairs);
-void print(PairContainer original, Pend pend, PairContainer main, PairContainer nonParti, size_t recursion);
-template <typename Container>
-void print(const Container &container, const std::string &color);
-void print(const PairContainer &c, const std::string &color, char letter);
-void print(const PairContainer &c, const std::string &color);
-void print(PairContainer::const_iterator elemIt, const std::string &color, char letter, size_t i);
-void print(const Pend &p);
-void printBeforeInsert(PairTarget &src, PairContainer &sorted);
-
-// Template versions for generic containers
-template <typename Container>
-void print(const typename ContainerTraits<Container>::PairContainer& pairs);
-
-template <typename Container>
-void print(const typename ContainerTraits<Container>::PairContainer& original, 
-          const typename ContainerTraits<Container>::Pend& pend, 
-          const typename ContainerTraits<Container>::PairContainer& main, 
-          const typename ContainerTraits<Container>::PairContainer& nonParti, 
-          size_t recursion);
-
-template <typename Container>
-void print(const typename ContainerTraits<Container>::PairContainer &c, const std::string &color, char letter);
-
-template <typename Container>
-void print(typename ContainerTraits<Container>::PairContainer::const_iterator elemIt, const std::string &color, char letter, size_t i);
-
-template <typename Container>
-void print(const typename ContainerTraits<Container>::Pend &p);
-
-template <typename Container>
-void printBeforeInsert(typename ContainerTraits<Container>::PairTarget &src, typename ContainerTraits<Container>::PairContainer &sorted);
 
 template <typename PairContainer>
 bool is_sorted(const PairContainer& container)

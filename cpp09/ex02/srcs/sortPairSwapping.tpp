@@ -4,7 +4,7 @@
 template <typename Container>
 void PmergeMe<Container>::divideIntoPairsAndSort(int &r)
 {
-	while (r * 2 < (int)_container.size())
+	while (r * 2 <= (int)_container.size())
 	{
 		PairContainer pairs;
 		initPairs(pairs, _container);

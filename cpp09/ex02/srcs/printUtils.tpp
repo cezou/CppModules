@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../includes/PmergeMe.hpp"
+
 DebugStream d_cout;
 
 template <typename Container>
@@ -117,7 +118,7 @@ template <typename Container>
 void PmergeMe<Container>::printBeforeInsert(PairTarget &src, PairContainer &sorted)
 {
 	d_cout 	<< "searching index for " B CYAN << src.first.back() << R " between 0 and " << src.second << std::endl
-			<<  "Target is " B PINK << sorted[src.second - 1].back() << R << std::endl;
+			<<  "Last number in range is " B PINK << sorted[src.second - 1].back() << R << std::endl;
 	for (typename PairContainer::iterator it = sorted.begin(); it != sorted.end(); it++)
 		d_cout << it->back() << " ";
 	d_cout << std::endl;
